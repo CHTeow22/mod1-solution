@@ -7,19 +7,39 @@
   LunchCheckController.$inject = ['$scope'];
   function LunchCheckController($scope) {
     $scope.name = "";
-    var lunch = $scope.name;
     var separator = ",";
 
     $scope.checkLunchItem = function () {
-      if(lunch = "" || " ") {
+      var lunch = $scope.name;
+      if(lunch.length == 0 ) {
+        $scope.fontColor = "red";
         $scope.message = "Please enter data first";
-      }
+      } else {
+        $scope.fontColor = "green";
         var stringSplit = lunch.split(separator);
-        $scope.message = stringSplit.length;
-        $scope.lunchItem = stringSplit.join(' + ');
+        $scope.message = "";
+        $scope.countItem = stringSplit.length;
+
+        var emptyString = 0;
+        for (var i = 0; i < stringSplit.length; i++) {
+          if(stringSplit[i] == " " || stringSplit[i] == "") {
+            emptyString++;
+          }
+        }
+
+        $scope.finalItem = stringSplit.length - emptyString;
+
+        if($scope.finalItem <= 3) {
+          $scope.message = "Enjoy!";
+        } else {
+          $scope.message = "Too much!";
+        }
+      }
+
     }
-console.log(lunch);
-console.log($scope.lunchItem);
+
+    console.log($scope.name);
+    // console.log($scope.lunchItem);
 
   }
 })();
